@@ -35,19 +35,15 @@ class Account {
     if ($user && ($new_username || $new_password || $new_colour)) {
       $new_values = [];
       $sql = 'UPDATE users SET ';
-      if ($new_username) { array_push($new_values, 'username=:username'); }
-      if ($new_password) { array_push($new_values, 'password=:password'); }
-      if ($new_colour) { array_push($new_values, 'colour=:colour'); }
+      if ($new_username) { array_push($new_values, 'username="'.$new_username.'"'); }
+      if ($new_password) { array_push($new_values, 'password="'.$new_password.'"'); }
+      if ($new_colour) { array_push($new_values, 'colour="'.$new_colour.'"'); }
 
       $sql .= implode(',', $new_values) . ' WHERE id=:id;';
 
       $req = $db->prepare($sql);
 
       $req->bindParam(':id', $user->id, PDO::PARAM_INT);
-
-      if ($new_username) { $req->bindValue(':username', $new_username); }
-      if ($new_password) { $req->bindValue(':password', $new_password); }
-      if ($new_colour) { $req->bindValue(':colour', $new_colour); }
 
       $success = $req->execute();
       return $success;
@@ -61,8 +57,8 @@ class Account {
 
     if (gettype($id) == 'string') {
       $username = strval($id);
-      $req = $db->prepare('SELECT * FROM users WHERE username = :username;');
-      $req->bindValue(':username', $username);
+      // oh dear..
+      $req = $db->query('SELECT * FROM users WHERE username = "' . $username . '";');
     } else {
       $id = intval($id);
       $req = $db->prepare('SELECT * FROM users WHERE id = :id');

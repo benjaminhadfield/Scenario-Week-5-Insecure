@@ -8,6 +8,7 @@ class BlogController {
     if (!$search_term) {
       $blogs = Blog::all();
     } else {
+      echo 'search: ' . $search_term . '<br>';
       $blogs = Blog::filter($search_term);
     }
     require_once('views/blog/index.php');

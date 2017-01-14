@@ -24,14 +24,12 @@ class AccountController {
       $passes_unique_username = !Account::getUser($username);
 
       if ($passes_username_length && $passes_password_length && $passes_password_match && $passes_unique_username) {
-        // hash the password
-        $hashed_password = password_hash($password1, PASSWORD_DEFAULT);
-
-        // create user account
-        $created = Account::register($username, $hashed_password);
+        // No hashing of password!
+        // create user account using RAW password
+        $created = Account::register($username, $password1);
 
         if ($created) {
-          $this->login($username, $password1);
+          $this->login();
           call('pages', 'home');
           return;
         }
@@ -69,7 +67,7 @@ class AccountController {
 
         if ($user) {
           // check password is correct
-          $verified = password_verify($password, $user->password);
+          $verified = $password == $user->password;
 
           if ($verified) {
             // set session
@@ -138,13 +136,12 @@ class AccountController {
         }
       } else {
         if (!$passes_username_length) { array_push($errors, 'Your username needs to be betweeen 3 and 10 characters long.'); }
-        if (!$passes_unique_username) { array_push($errors, 'The username ' . $username . ' is already registed to another account.'); }
+        if (!$passes_unique_username) { array_push($errors, 'The username ' . $username . ' is already registered to another account.'); }
       }
     }
 
     if ($current_password && $password1 && $password2) {
       $verified = password_verify($current_password, $user->password);
-      echo 'verified: ' . $verified;
       if ($verified) {
         $passes_password_length = field_above_length($password1, 6);
         $passes_password_match = fields_match($password1, $password2);
