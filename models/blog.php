@@ -32,9 +32,9 @@ class Blog {
     $db = Db::getInstance();
     // validate
     $query = strval($query);
+    echo 'SELECT * FROM blog WHERE title LIKE \'%'. $query .'%\' ORDER BY created DESC;';
     // make an insecure SQL statement using the unencoding query value
-    $req = $db->prepare('SELECT * FROM blog WHERE title LIKE %'. $query .'% ORDER BY created DESC;');
-    $req->execute();
+    $req = $db->query('SELECT * FROM blog WHERE title LIKE %'. $query .'% ORDER BY created DESC;');
 
     // populate list from DB results
     foreach($req->fetchAll() as $blog) {
