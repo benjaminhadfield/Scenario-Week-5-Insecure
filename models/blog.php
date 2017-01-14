@@ -67,8 +67,7 @@ class Blog {
     $user_id = intval($user_id);
 
     // Don't encode the content or title values, opening door to SQL injection and XSS attacks.
-    $req = $db->prepare('INSERT INTO blog (title, content, author) VALUES (' . $title . ', ' . $content . ', :user_id)');
-    $req->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $req = $db->query('INSERT INTO blog (title, content, author) VALUES (' . $title . ', ' . $content . ', ' . $user_id . ');');
 
     $success = $req->execute();
 
