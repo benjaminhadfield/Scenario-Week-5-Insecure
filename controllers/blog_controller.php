@@ -35,9 +35,9 @@ class BlogController {
 
     $errors = [];
 
-    // htmlspecialchars to encode user input and prevent XSS attacks.
-    $title = htmlspecialchars($_POST['title']);
-    $content = htmlspecialchars($_POST['content']);
+    // No encoding here D:
+    $title = $_POST['title'];
+    $content = $_POST['content'];
 
     $user_id = Account::getUser($_SESSION['user']->username)->id;
 

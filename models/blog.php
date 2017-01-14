@@ -33,7 +33,6 @@ class Blog {
     // validate
     $query = strval($query);
     // make an insecure SQL statement using the unencoded query value
-    echo 'SELECT * FROM blog WHERE title LIKE \'%'. $query .'%\' ORDER BY created DESC;';
     $req = $db->query('SELECT * FROM blog WHERE title LIKE \'%'. $query .'%\' ORDER BY created DESC;');
 
     // populate list from DB results
@@ -62,12 +61,10 @@ class Blog {
   public static function create($title, $content, $user_id) {
     $db = Db::getInstance();
 
-    $title = strval($title);
-    $content = strval($content);
     $user_id = intval($user_id);
 
     // Don't encode the content or title values, opening door to SQL injection and XSS attacks.
-    $req = $db->query('INSERT INTO blog (title, content, author) VALUES (\'' . $title . '\', \'' . $content . '\', \'' . $user_id . '\');');
+    $req = $db->query('INSERT INTO blog (title, content, author) VALUES ("' . $title . '", "' . $content . '", "' . $user_id . '");');
 
     return $req;
   }
