@@ -1,0 +1,24 @@
+{
+  "today_total_visitors": 3176,
+  "today_unique_visitors": 1950,
+  "today_accounts": {
+    "registers": 344,
+    "sign_ins": 2007
+  },
+  "today_visitor_origin": {
+    "google": 1834,
+    "organic": 506,
+    "facebook": 2786
+  },
+  "today_revenue": {
+    "advertising": 56041,
+    "sponsorship": 11411
+  },
+  "service": "okay",
+  "status_breakdown": {
+    "2xx": 96.7,
+    "3xx": 0.0,
+    "4xx": 3.1,
+    "5xx": 0.2
+  }
+}
