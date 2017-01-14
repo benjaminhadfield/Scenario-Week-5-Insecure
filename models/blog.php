@@ -69,8 +69,6 @@ class Blog {
     // Don't encode the content or title values, opening door to SQL injection and XSS attacks.
     $req = $db->query('INSERT INTO blog (title, content, author) VALUES (\'' . $title . '\', \'' . $content . '\', \'' . $user_id . '\');');
 
-    $success = $req->execute();
-
-    return $success;
+    return $req;
   }
 }
