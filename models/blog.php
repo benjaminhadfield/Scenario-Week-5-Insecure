@@ -32,10 +32,8 @@ class Blog {
     $db = Db::getInstance();
     // validate
     $query = strval($query);
-    // make a secure SQL statement using parameters -> No SQL injection!
-    $req = $db->prepare('SELECT * FROM blog WHERE title LIKE :query ORDER BY created DESC;');
-    // lets replace params with actual value (to be interpreted as a value and not SQL)
-    $req->bindValue(':query', "%{$query}%");
+    // make an insecure SQL statement using the unencoding query value
+    $req = $db->prepare('SELECT * FROM blog WHERE title LIKE %'. $query .'% ORDER BY created DESC;');
     $req->execute();
 
     // populate list from DB results

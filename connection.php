@@ -21,7 +21,7 @@ if (getenv('ENV') == 'PRODUCTION') {
           $DB_PASSWORD = getenv('DB_PASSWORD');
           $DB_USERNAME = getenv('DB_USERNAME');
 
-          $conn = new PDO("mysql:host=eu-cdbr-azure-north-e.cloudapp.net;dbname=comp205p_ae_secure;", $DB_USERNAME, $DB_PASSWORD);
+          $conn = new PDO("mysql:host=eu-cdbr-azure-north-e.cloudapp.net;dbname=comp205p_ae_insecure;", $DB_USERNAME, $DB_PASSWORD);
           $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
           self::$instance = $conn;
 
