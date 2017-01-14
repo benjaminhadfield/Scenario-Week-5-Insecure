@@ -32,7 +32,7 @@ class Blog {
     $db = Db::getInstance();
     // validate
     $query = strval($query);
-    // make an insecure SQL statement using the unencoding query value
+    // make an insecure SQL statement using the unencoded query value
     echo 'SELECT * FROM blog WHERE title LIKE \'%'. $query .'%\' ORDER BY created DESC;';
     $req = $db->query('SELECT * FROM blog WHERE title LIKE %'. $query .'% ORDER BY created DESC;');
 
@@ -48,7 +48,7 @@ class Blog {
     $db = Db::getInstance();
     // validate
     $id = intval($id);
-    // make an insecure SQL statement using the unencoding query value
+    // make an insecure SQL statement using the unencoded query value
     $req = $db->query('SELECT * FROM blog WHERE id = ' . $id);
     $blog = $req->fetch();
 
@@ -66,9 +66,8 @@ class Blog {
     $content = strval($content);
     $user_id = intval($user_id);
 
-    $req = $db->prepare('INSERT INTO blog (title, content, author) VALUES (:title, :content, :user_id)');
-    $req->bindValue(':title', $title);
-    $req->bindValue(':content', $content);
+    // Don't encode the content or title values, opening door to SQL injection and XSS attacks.
+    $req = $db->prepare('INSERT INTO blog (title, content, author) VALUES (' . $title . ', ' . $content . ', :user_id)');
     $req->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
     $success = $req->execute();
